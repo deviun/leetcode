@@ -31,14 +31,43 @@ const execOp = {
   [OP.MINUS]: (a, b) => a - b,
 };
 
-function stringToTree(stringExpression) {
-  let currTokenT = TOKEN.START;
-  let mem = '';
-  const tree = [];
-  let treeLevel = 0;
+class Expression {
+  constructor(s) {
+    if (!s) {
+      throw new Error('define expression');
+    }
 
-  function insert(token, targetTree = tree, level = 0) {
-    if (treeLevel === 0 || level === treeLevel) {
+    this.expression = s;
+    this.currTokenT = TOKEN.START;
+    this.mem = '';
+    this.tree = [];
+    this.treeLevel = 0;
+  }
+
+  makeTree() {
+    for (const char of this.expression) {
+      let tokenType;
+      if (Number.isNaN(Number(char)) === false) { // numbers
+        tokenType = TOKEN.NUMBER;
+      } else if (opSet.has(char)) { // operators
+        tokenType = TOKEN.OPERATOR;
+      }
+
+      if (tokenType) {
+        if (this.currTokenT !== tokenType) {
+          this.#switchTokenType(tokenType, char);
+        }
+        this.mem += char;
+      }
+    }
+
+    this.#switchTokenType(TOKEN.END);
+
+    return this;
+  }
+
+  #insertToTree(token, targetTree = this.tree, level = 0) {
+    if (this.treeLevel === 0 || level === this.treeLevel) {
       targetTree.push(token);
     } else {
       let deepTree = targetTree[targetTree.length - 1];
@@ -48,14 +77,14 @@ function stringToTree(stringExpression) {
         targetTree.push(deepTree);
       }
 
-      insert(token, deepTree, level + 1);
+      this.#insertToTree(token, deepTree, level + 1);
     }
   }
 
-  function switchTokenType(newType, nextChar = '') {
+  #switchTokenType(newType, nextChar = '') {
     let typeToSwitch = newType;
     let clearMemAfterSwitch = true;
-    switch (`${currTokenT}->${newType}`) {
+    switch (`${this.currTokenT}->${newType}`) {
       // if detected op in start of expression then mark token as sign of number
       case `${TOKEN.START}->${TOKEN.OPERATOR}`:
         typeToSwitch = TOKEN.SIGN;
@@ -64,76 +93,56 @@ function stringToTree(stringExpression) {
       case `${TOKEN.NUMBER}->${TOKEN.END}`:
         // insert mul & div to deep expression
         if (newType === TOKEN.OPERATOR && upLevelOpSet.has(nextChar)) {
-          treeLevel = 1;
+          this.treeLevel = 1;
         }
-        insert(Number(mem));
+        this.#insertToTree(Number(this.mem));
         // reset level after all deep expression operators
         if (newType === TOKEN.OPERATOR && upLevelOpSet.has(nextChar) === false) {
-          treeLevel = 0;
+          this.treeLevel = 0;
         }
         break;
       case `${TOKEN.SIGN}->${TOKEN.NUMBER}`:
         // make negative number
-        if (mem === OP.MINUS) {
+        if (this.mem === OP.MINUS) {
           clearMemAfterSwitch = false;
         }
         break;
       default:
-        if (mem !== '') {
-          insert(mem);
+        if (this.mem !== '') {
+          this.#insertToTree(this.mem);
         }
         break;
     }
 
-    currTokenT = typeToSwitch;
+    this.currTokenT = typeToSwitch;
 
     if (clearMemAfterSwitch) {
-      mem = '';
+      this.mem = '';
     }
 
     return 1;
   }
 
-  for (const char of stringExpression) {
-    let tokenType;
-    if (Number.isNaN(Number(char)) === false) { // numbers
-      tokenType = TOKEN.NUMBER;
-    } else if (opSet.has(char)) { // operators
-      tokenType = TOKEN.OPERATOR;
-    }
+  exec(tree = this.tree) {
+    let sum = 0;
+    let op = OP.PLUS;
 
-    if (tokenType) {
-      if (currTokenT !== tokenType) {
-        switchTokenType(tokenType, char);
+    tree.forEach((token) => {
+      let value = token;
+
+      if (Array.isArray(value)) {
+        value = this.exec(value);
       }
-      mem += char;
-    }
+
+      if (Number.isNaN(Number(value)) === false) {
+        sum = execOp[op](sum, Number(value));
+      } else {
+        op = token;
+      }
+    });
+
+    return sum;
   }
-
-  switchTokenType(TOKEN.END);
-
-  return tree;
-}
-
-function execExpressionTree(tree) {
-  let sum = 0;
-  let op = OP.PLUS;
-
-  tree.forEach((token) => {
-    let value = token;
-
-    if (Array.isArray(value)) {
-      value = execExpressionTree(value);
-    }
-
-    if (Number.isNaN(Number(value)) === false) {
-      sum = execOp[op](sum, Number(value));
-    } else {
-      op = token;
-    }
-  });
-
-  return sum;
 }
 
 /**
@@ -142,9 +151,7 @@ function execExpressionTree(tree) {
  */
 function calculate(s) {
   // parse expression to tree of tokens and exec calc
-  return execExpressionTree(
-    stringToTree(s),
-  );
+  return new Expression(s).makeTree().exec();
 }
 
 module.exports = () => {
