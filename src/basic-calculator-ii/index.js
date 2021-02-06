@@ -39,12 +39,13 @@ class Expression {
 
     this.expression = s;
     this.currTokenT = TOKEN.START;
-    this.mem = '';
+    this.currTokenValue = '';
     this.tree = [];
     this.treeLevel = 0;
   }
 
   makeTree() {
+    // now currTokenT is START
     for (const char of this.expression) {
       let tokenType;
       if (Number.isNaN(Number(char)) === false) { // numbers
@@ -55,13 +56,13 @@ class Expression {
 
       if (tokenType) {
         if (this.currTokenT !== tokenType) {
-          this.#switchTokenType(tokenType, char);
+          this.#handleNewTokenType(tokenType, char);
         }
-        this.mem += char;
+        this.currTokenValue += char;
       }
     }
 
-    this.#switchTokenType(TOKEN.END);
+    this.#handleNewTokenType(TOKEN.END);
 
     return this;
   }
@@ -81,9 +82,10 @@ class Expression {
     }
   }
 
-  #switchTokenType(newType, nextChar = '') {
+  #handleNewTokenType(newType, nextChar = '') {
     let typeToSwitch = newType;
-    let clearMemAfterSwitch = true;
+    let clearTokenValueAfterSwitch = true;
+
     switch (`${this.currTokenT}->${newType}`) {
       // if detected op in start of expression then mark token as sign of number
       case `${TOKEN.START}->${TOKEN.OPERATOR}`:
@@ -95,7 +97,7 @@ class Expression {
         if (newType === TOKEN.OPERATOR && upLevelOpSet.has(nextChar)) {
           this.treeLevel = 1;
         }
-        this.#insertToTree(Number(this.mem));
+        this.#insertToTree(Number(this.currTokenValue));
         // reset level after all deep expression operators
         if (newType === TOKEN.OPERATOR && upLevelOpSet.has(nextChar) === false) {
           this.treeLevel = 0;
@@ -103,21 +105,21 @@ class Expression {
         break;
       case `${TOKEN.SIGN}->${TOKEN.NUMBER}`:
         // make negative number
-        if (this.mem === OP.MINUS) {
-          clearMemAfterSwitch = false;
+        if (this.currTokenValue === OP.MINUS) {
+          clearTokenValueAfterSwitch = false;
         }
         break;
       default:
-        if (this.mem !== '') {
-          this.#insertToTree(this.mem);
+        if (this.currTokenValue !== '') {
+          this.#insertToTree(this.currTokenValue);
         }
         break;
     }
 
     this.currTokenT = typeToSwitch;
 
-    if (clearMemAfterSwitch) {
-      this.mem = '';
+    if (clearTokenValueAfterSwitch) {
+      this.currTokenValue = '';
     }
 
     return 1;
