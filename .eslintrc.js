@@ -20,5 +20,8 @@ module.exports = {
     '@typescript-eslint/indent': ['error', 2],
     'no-restricted-syntax': ['off', { selector: 'ForOfStatement' }],
     'no-console': ['off'],
+    'no-underscore-dangle': ['off'],
+    'no-multi-assign': ['off'],
+    'no-continue': ['off'],
   },
 };
