@@ -1,4 +1,4 @@
-const task = require('./src/basic-calculator-ii');
+const task = require('./src/minimum-window-substring');
 
 try {
   console.time('timer');
