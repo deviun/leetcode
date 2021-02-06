@@ -46,6 +46,7 @@ function minWindow(string, ref) {
     if (refCountMap[char]) {
       addChar(char);
     } else {
+      // jump to next char
       continue;
     }
 
@@ -56,7 +57,7 @@ function minWindow(string, ref) {
       continue;
     }
 
-    // move left cursor & del char from
+    // move left cursor & del char
     for (
       delChar(string[lCursor]), lCursor += 1;
       lCursor <= rCursor;
