@@ -1,4 +1,4 @@
-const task = require('./src/hard/minimum-window-substring');
+const task = require('./src/easy/single-number');
 
 try {
   console.time('timer');
