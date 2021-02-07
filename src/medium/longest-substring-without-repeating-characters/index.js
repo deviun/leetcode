@@ -5,23 +5,22 @@
 function lengthOfLongestSubstring(s) {
   let maxSubstr = '';
   const currentSubstr = new Set([]);
-  let startFrom = 0;
-  let currentPos = 0;
+  let lCursor = 0;
+  let rCursor = 0;
   do {
-    const char = s[currentPos];
+    const char = s[rCursor];
     if (!currentSubstr.has(char)) {
       currentSubstr.add(char);
-      currentPos += 1;
+      rCursor += 1;
     } else {
-      const substringResult = Array.from(currentSubstr).join('');
-      if (substringResult.length > maxSubstr.length) {
-        maxSubstr = substringResult;
+      if (currentSubstr.size > maxSubstr.length) {
+        maxSubstr = Array.from(currentSubstr).join('');
       }
       currentSubstr.clear();
-      startFrom += 1;
-      currentPos = startFrom;
+      lCursor += 1;
+      rCursor = lCursor;
     }
-  } while (maxSubstr.length < (s.length - startFrom) || currentPos < s.length);
+  } while (maxSubstr.length < (s.length - lCursor) || rCursor < s.length);
 
   console.log(maxSubstr);
 
