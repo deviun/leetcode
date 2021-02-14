@@ -1,4 +1,4 @@
-const task = require('./src/easy/single-number');
+const task = require('./src/easy/same-tree');
 
 try {
   console.time('timer');
