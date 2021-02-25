@@ -18,30 +18,20 @@ function combinationSum(candidates, target) {
       return;
     }
 
-    let processTarget = t;
-
     // go to deep
     stack.push(candidates[offset]);
-    processTarget -= candidates[offset];
-    get(offset, processTarget, stack);
+    get(offset, t - candidates[offset], stack);
     stack.pop();
-    processTarget += candidates[offset];
 
-    // shift in deep
-    if (stack.length > 0) {
-      for (let deepOffset = offset + 1; deepOffset < candidates.length; deepOffset += 1) {
-        stack.push(candidates[deepOffset]);
-        processTarget -= candidates[deepOffset];
-        get(deepOffset, processTarget, stack);
-        processTarget += candidates[deepOffset];
-        stack.pop();
-      }
+    // shift & shift in deep
+    for (let dOffset = offset + 1; dOffset < candidates.length; dOffset += 1) {
+      stack.push(candidates[dOffset]);
+      get(dOffset, t - candidates[dOffset], stack);
+      stack.pop();
     }
   }
 
-  for (let offset = 0; offset < candidates.length; offset += 1) {
-    get(offset, target, []);
-  }
+  get(0, target, []);
 
   return res;
 }
