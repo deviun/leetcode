@@ -1,4 +1,4 @@
-const task = require('./src/easy/same-tree');
+const task = require('./src/medium/combination-sum');
 
 try {
   console.time('timer');
