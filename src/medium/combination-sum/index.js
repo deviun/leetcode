@@ -18,13 +18,8 @@ function combinationSum(candidates, target) {
       return;
     }
 
-    // go to deep
-    stack.push(candidates[offset]);
-    get(offset, t - candidates[offset], stack);
-    stack.pop();
-
     // shift & shift in deep
-    for (let dOffset = offset + 1; dOffset < candidates.length; dOffset += 1) {
+    for (let dOffset = offset; dOffset < candidates.length; dOffset += 1) {
       stack.push(candidates[dOffset]);
       get(dOffset, t - candidates[dOffset], stack);
       stack.pop();
