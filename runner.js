@@ -1,4 +1,4 @@
-const task = require('./src/medium/combination-sum');
+const task = require('./src/easy/move-zeroes');
 
 try {
   console.time('timer');
