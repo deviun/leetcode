@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 class TreeNode {
   constructor(val, left, right) {
     this.val = (val === undefined ? 0 : val);
