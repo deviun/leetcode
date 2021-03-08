@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/hard/serialize-and-deserialize-binary-tree');
+const task = require('./src/hard/merge-k-sorted-lists');
 
 try {
   const startTime = performance.now();
