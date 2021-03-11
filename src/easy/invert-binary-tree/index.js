@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign,no-unused-expressions */
 const { serialize, deserialize } = require('../../utils/trees');
 
 /**
@@ -7,21 +7,17 @@ const { serialize, deserialize } = require('../../utils/trees');
  */
 const invertTree = function invertTree(root) {
   function invert(node) {
-    if (!node) {
-      return;
-    }
-
     const toLeft = node.right;
     const toRight = node.left;
 
     node.left = toLeft;
     node.right = toRight;
 
-    invert(toLeft);
-    invert(toRight);
+    toLeft && invert(toLeft);
+    toRight && invert(toRight);
   }
 
-  invert(root);
+  root && invert(root);
 
   return root;
 };
