@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/medium/reverse-linked-list-ii');
+const task = require('./src/easy/invert-binary-tree');
 
 try {
   const startTime = performance.now();
