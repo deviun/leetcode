@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/hard/merge-k-sorted-lists');
+const task = require('./src/medium/reverse-linked-list-ii');
 
 try {
   const startTime = performance.now();
