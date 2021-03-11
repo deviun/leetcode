@@ -1,9 +1,4 @@
-class ListNode {
-  constructor(val, next) {
-    this.val = (val === undefined ? 0 : val);
-    this.next = (next === undefined ? null : next);
-  }
-}
+const { ListNode, checkListOrder } = require('../../utils/lists');
 
 /**
  * @param {ListNode[]} lists
@@ -88,6 +83,6 @@ module.exports = () => {
   ]);
 
   console.log([
-    JSON.stringify(res1),
+    checkListOrder(res1, [1, 1, 2, 3, 4, 4, 5, 6]),
   ]);
 };

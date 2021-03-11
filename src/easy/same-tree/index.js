@@ -1,10 +1,4 @@
-class TreeNode {
-  constructor(val, left, right) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
-}
+const { TreeNode } = require('../../utils/lists');
 
 /**
  * @param {TreeNode} p
