@@ -9,7 +9,7 @@ const hasCycle = function hasCycle(head) {
   let index = 0;
 
   while (node) {
-    if (node.index !== undefined) {
+    if (node.index !== undefined && node.index !== null) {
       return true;
     }
 
