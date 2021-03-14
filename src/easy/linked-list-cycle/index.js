@@ -6,15 +6,14 @@ const { ListNode } = require('../../utils/lists');
  */
 const hasCycle = function hasCycle(head) {
   let node = head;
-  let prev = null;
+  let index = 0;
 
   while (node) {
-    if (node.prev) {
+    if (node.index !== undefined) {
       return true;
     }
 
-    node.prev = prev;
-    prev = node;
+    node.index = index += 1;
     node = node.next;
   }
 
