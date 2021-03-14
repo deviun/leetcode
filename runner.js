@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/easy/linked-list-cycle');
+const task = require('./src/easy/delete-node-in-a-linked-list');
 
 try {
   const startTime = performance.now();
