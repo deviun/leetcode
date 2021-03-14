@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/easy/invert-binary-tree');
+const task = require('./src/easy/linked-list-cycle');
 
 try {
   const startTime = performance.now();
