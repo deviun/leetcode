@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/easy/delete-node-in-a-linked-list');
+const task = require('./src/medium/trim-a-binary-search-tree');
 
 try {
   const startTime = performance.now();
