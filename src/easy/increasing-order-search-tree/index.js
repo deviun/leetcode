@@ -5,40 +5,36 @@ const { deserialize, serialize } = require('../../utils/trees');
  * @return {TreeNode}
  */
 function increasingBST(root) {
-  if (!root.left && !root.right) {
-    return root;
-  }
-
-  const middleNode = root;
-  let newRoot = root;
-  let increasingByLeft;
-  let increasingByRight;
-
-  if (middleNode.left) {
-    increasingByLeft = increasingBST(middleNode.left);
-    newRoot = increasingByLeft;
-
-    let endOfLeftTree = increasingByLeft;
-
-    while (endOfLeftTree) {
-      if (endOfLeftTree.right) {
-        endOfLeftTree = endOfLeftTree.right;
-      } else {
-        break;
-      }
+  let tail = null;
+  function deep(r) {
+    if (!r.left && !r.right) {
+      tail = r;
+      return r;
     }
 
-    endOfLeftTree.right = middleNode;
+    const middleNode = r;
+    let newRoot = r;
+    let increasingByLeft;
+    let increasingByRight;
+
+    if (middleNode.left) {
+      increasingByLeft = deep(middleNode.left);
+      newRoot = increasingByLeft;
+
+      tail.right = middleNode;
+      tail = middleNode;
+      middleNode.left = null;
+    }
+
+    if (middleNode.right) {
+      increasingByRight = deep(middleNode.right);
+      middleNode.right = increasingByRight;
+    }
+
+    return newRoot;
   }
 
-  if (middleNode.right) {
-    increasingByRight = increasingBST(middleNode.right);
-    middleNode.right = increasingByRight;
-  }
-
-  middleNode.left = null;
-
-  return newRoot;
+  return deep(root);
 }
 
 module.exports = () => {
