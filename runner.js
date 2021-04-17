@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/easy/increasing-order-search-tree');
+const task = require('./src/medium/maximum-width-of-binary-tree');
 
 try {
   const startTime = performance.now();
