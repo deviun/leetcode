@@ -23,5 +23,6 @@ module.exports = {
     'no-underscore-dangle': ['off'],
     'no-multi-assign': ['off'],
     'no-continue': ['off'],
+    'no-param-reassign': ['off'],
   },
 };
