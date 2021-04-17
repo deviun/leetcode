@@ -4,6 +4,7 @@
   "description": "",
   "main": "runner.js",
   "dependencies": {
+    "treevis": "^0.1.4"
   },
   "devDependencies": {
     "prettier": "^2.2.1",
