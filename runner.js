@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/medium/maximum-width-of-binary-tree');
+const task = require('./src/hard/robot-room-cleaner');
 
 try {
   const startTime = performance.now();

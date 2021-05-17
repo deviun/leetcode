@@ -32,7 +32,7 @@ const serialize = function serialize(root) {
     }
   }
 
-  // clear null end
+  // clean null end
   for (let i = data.length - 1; i >= 0; i -= 1) {
     const el = data[i];
 
