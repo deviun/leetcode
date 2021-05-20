@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/hard/robot-room-cleaner');
+const task = require('./src/medium/meeting-rooms-ii');
 
 try {
   const startTime = performance.now();
