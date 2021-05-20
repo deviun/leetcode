@@ -8,31 +8,26 @@ function minMeetingRooms(intervals) {
     .sort((a, b) => a[0] - b[0]);
 
   let counter = 0;
-  let handle = sorted;
+  let currRoom = sorted;
 
-  while (handle) {
+  while (currRoom) {
     counter += 1;
     const next = [];
     let prevEnd = -1;
-    handle.filter((meet) => {
+    currRoom.forEach((meet) => {
       if (!prevEnd) {
         prevEnd = meet[1];
-        return true;
-      }
-      if (meet[0] < prevEnd) {
+      } else if (meet[0] < prevEnd) {
         next.push(meet);
-        return false;
+      } else {
+        prevEnd = meet[1];
       }
-
-      prevEnd = meet[1];
-
-      return true;
     });
 
     if (next.length > 0) {
-      handle = next;
+      currRoom = next;
     } else {
-      handle = null;
+      currRoom = null;
     }
   }
 
