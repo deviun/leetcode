@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/medium/meeting-rooms-ii');
+const task = require('./src/medium/decode-string');
 
 try {
   const startTime = performance.now();
