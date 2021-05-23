@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/medium/decode-string');
+const task = require('./src/hard/longest-valid-parentheses');
 
 try {
   const startTime = performance.now();
