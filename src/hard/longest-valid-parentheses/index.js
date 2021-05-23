@@ -7,16 +7,11 @@ function longestValidParentheses(s) {
   let level = 0;
   const lvlRef = {};
 
-  function calc(block, reset = false) {
+  function calc(block) {
     const { lvl, child } = block;
     let ref = lvlRef[String(lvl)];
     if (!ref) {
       ref = lvlRef[String(lvl)] = { curr: 0, max: 0 };
-    }
-
-    if (reset) {
-      ref.curr = 0;
-      return;
     }
 
     let incr = 2;
@@ -34,8 +29,6 @@ function longestValidParentheses(s) {
     }
   }
 
-  const resetBlock = { lvl: 0 };
-
   for (const char of s) {
     if (char === '(') {
       const block = { lvl: level, child: [] };
@@ -48,8 +41,8 @@ function longestValidParentheses(s) {
       const block = stack.shift();
       calc(block);
       level -= 1;
-    } else {
-      calc(resetBlock, true);
+    } else if (lvlRef['0']) {
+      lvlRef['0'].curr = 0;
     }
   }
 
