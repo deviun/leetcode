@@ -1,5 +1,5 @@
 const { performance } = require('perf_hooks');
-const task = require('./src/hard/longest-valid-parentheses');
+const task = require('./src/medium/time-needed-to-inform-all-employees');
 
 try {
   const startTime = performance.now();
